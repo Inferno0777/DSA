@@ -1,0 +1,117 @@
+// prims algorithm code
+
+#include <iostream>
+
+#include <climits>
+
+#define MAX 10
+
+#define INF INT_MAX
+
+using namespace std;
+
+class Prims {
+
+public:
+
+    int cost[MAX][MAX];
+
+    int vertex, edge;
+
+    void primMST();
+
+};
+
+void Prims::primMST() {
+
+    int selected[MAX] = {0};
+
+    int minCost = 0;
+
+    selected[0] = 1;
+
+    int u, v, min;
+
+    cout << "\nMinimum Spanning Tree Edges:" << endl;
+
+    // Repeat until all vertices are included in the MST
+
+    for (int count = 0; count < vertex - 1; count++) {
+
+        min = INF;
+
+        u = v = -1;
+
+        // Find the minimum cost edge from the selected vertices
+
+        for (int i = 0; i < vertex; i++) {
+
+            if (selected[i]) {
+
+                for (int j = 0; j < vertex; j++) {
+
+                    if (!selected[j] && cost[i][j] && cost[i][j] < min) {
+
+                        min = cost[i][j];
+
+                        u = i;
+
+                        v = j;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (u != -1 && v != -1) {
+
+            cout << u << " -- " << v << endl;
+
+            selected[v] = 1;
+
+            minCost += min;
+
+        }
+
+    }
+
+    cout << "\nTotal cost of the minimum spanning tree: " << minCost << endl;
+
+}
+
+int main() {
+
+    Prims prims;
+
+    cout << "Enter the number of vertices: ";
+
+    cin >> prims.vertex;
+
+    cout << "Enter the number of edges: ";
+
+    cin >> prims.edge;
+
+    // Input the adjacency matrix
+
+    cout << "Enter the adjacency matrix (" << prims.vertex << "x" << prims.vertex << "):\n";
+
+    for (int i = 0; i < prims.vertex; i++) {
+
+        for (int j = 0; j < prims.vertex; j++) {
+
+            cout << "Enter the cost between vertex " << i << " and vertex " << j << ": ";
+
+            cin >> prims.cost[i][j];
+
+        }
+
+    }
+
+    prims.primMST();
+
+    return 0;
+
+}
